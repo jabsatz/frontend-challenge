@@ -1,5 +1,5 @@
-import loadChampionsQuery from '../queries/loadChampions';
-import loadYearWinnersQuery from '../queries/loadYearWinners';
+import loadChampionsQuery from 'queries/loadChampions';
+import loadYearWinnersQuery from 'queries/loadYearWinners';
 
 const LOAD_CHAMPIONS_START = 'LOAD_CHAMPIONS_START';
 const LOAD_CHAMPIONS_SUCCESS = 'LOAD_CHAMPIONS_SUCCESS';
@@ -26,7 +26,7 @@ export const loadChampions = (startingYear = 2005, amountOfYears = 11) => async 
 };
 
 export const loadYearWinners = year => async dispatch => {
-	dispatch({ type: LOAD_ROUND_WINNERS_START });
+	dispatch({ type: LOAD_ROUND_WINNERS_START, payload: year });
 	try {
 		const yearWinners = await loadYearWinnersQuery(year);
 		dispatch({
@@ -39,7 +39,10 @@ export const loadYearWinners = year => async dispatch => {
 	} catch (error) {
 		dispatch({
 			type: LOAD_ROUND_WINNERS_FAILURE,
-			payload: error,
+			payload: {
+				year,
+				error,
+			},
 		});
 	}
 };
@@ -51,23 +54,23 @@ const initialState = {
 	yearWinners: {},
 };
 
-export default (state = initialState, action) => {
-	switch (action.type) {
+export default (state = initialState, { type, payload }) => {
+	switch (type) {
 		case LOAD_CHAMPIONS_START:
 			return { ...state, loadingChampions: true };
 		case LOAD_CHAMPIONS_SUCCESS:
-			return { ...state, loadingChampions: false, champions: action.payload };
+			return { ...state, loadingChampions: false, champions: payload };
 		case LOAD_CHAMPIONS_FAILURE:
 			return { ...state, loadingChampions: false };
 		case LOAD_ROUND_WINNERS_START:
-			return { ...state, loadingYearWinners: true };
+			return { ...state, loadingYearWinners: true, yearWinners: { ...state.yearWinners, [payload]: [] } };
 		case LOAD_ROUND_WINNERS_SUCCESS:
 			return {
 				...state,
 				loadingYearWinners: false,
 				yearWinners: {
 					...state.yearWinners,
-					[action.payload.year]: action.payload.yearWinners
+					[payload.year]: payload.yearWinners,
 				},
 			};
 		case LOAD_ROUND_WINNERS_FAILURE:

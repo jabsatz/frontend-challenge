@@ -1,19 +1,14 @@
-import './App.css';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { loadChampions } from './redux/reducer';
+import { Link } from 'react-router-dom';
 
 const mapStateToProps = state => ({
 	loading: state.loadingChampions,
 	champions: state.champions,
 });
 
-const mapDispatchToProps = {
-	initialLoad: loadChampions,
-};
-
-class App extends Component {
+export class ChampionsList extends Component {
 	static propTypes = {
 		loading: PropTypes.bool,
 		champions: PropTypes.arrayOf(
@@ -29,25 +24,27 @@ class App extends Component {
 				year: PropTypes.number,
 			})
 		),
-		initialLoad: PropTypes.func,
 	};
 
-	componentDidMount() {
-		this.props.initialLoad(2005, 11);
-	}
+	static defaultProps = {
+		loading: true,
+		champions: [],
+	};
 
 	render() {
 		const { loading, champions } = this.props;
-
 		return (
-			<div className="App">
+			<div>
 				{loading ? (
 					<div className="App-loading" />
 				) : (
 					<ul className="App-list">
 						{champions.map(champion => (
 							<li key={champion.year}>
-								<span className="App-link">{champion.year}</span> champion:{' '}
+								<Link to={`/${champion.year}`} className="App-link">
+									{champion.year}
+								</Link>{' '}
+								champion:{' '}
 								<a className="App-link" href={champion.url}>
 									{champion.givenName} {champion.familyName}
 								</a>
@@ -60,7 +57,4 @@ class App extends Component {
 	}
 }
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(App);
+export default connect(mapStateToProps)(ChampionsList);
