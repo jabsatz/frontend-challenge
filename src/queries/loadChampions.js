@@ -1,4 +1,4 @@
-export default (startingYear = 2005, amountOfYears = 11) => {
+export default (startingYear, amountOfYears) => {
 	const requestedYears = Array(amountOfYears)
 		.fill(startingYear)
 		.map((baseYear, position) => baseYear + position);
