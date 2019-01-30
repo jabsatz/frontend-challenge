@@ -67,7 +67,7 @@ export class YearList extends Component {
 								return (
 									<li className={isChampion ? 'App-list-champion' : undefined} key={winner.round}>
 										Round {winner.round} Winner:{' '}
-										<a className="App-link" href={winner.url}>
+										<a className="App-link" target="_blank" rel="noopener noreferrer" href={winner.url}>
 											{winner.givenName} {winner.familyName}
 										</a>
 									</li>

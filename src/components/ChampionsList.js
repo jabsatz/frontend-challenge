@@ -45,7 +45,7 @@ export class ChampionsList extends Component {
 									{champion.year}
 								</Link>{' '}
 								champion:{' '}
-								<a className="App-link" href={champion.url}>
+								<a className="App-link" target="_blank" rel="noopener noreferrer" href={champion.url}>
 									{champion.givenName} {champion.familyName}
 								</a>
 							</li>
