@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loadYearWinners } from 'redux/reducer';
-import { Link } from 'react-router-dom';
+import { ListItem, List } from 'components/List';
+import { AnchorLink } from 'components/Link'
+import { Page } from 'components/Page';
 
 const mapStateToProps = (state, ownProps) => ({
 	loading: state.loadingYearWinners,
 	winners: state.yearWinners[ownProps.year] || [],
-	champion: state.champions.find(champion => champion.year == ownProps.year),
+	champion: state.champions.find(champion => champion.year === parseInt(ownProps.year, 10)),
 });
 
 const mapDispatchToProps = {
@@ -19,25 +21,17 @@ export class YearList extends Component {
 		loading: PropTypes.bool,
 		winners: PropTypes.arrayOf(
 			PropTypes.shape({
-				code: PropTypes.string,
-				dateOfBirth: PropTypes.string,
 				driverId: PropTypes.string,
 				familyName: PropTypes.string,
 				givenName: PropTypes.string,
-				nationality: PropTypes.string,
-				permanentNumber: PropTypes.string,
 				url: PropTypes.string,
 				round: PropTypes.number,
 			})
 		),
 		champion: PropTypes.shape({
-			code: PropTypes.string,
-			dateOfBirth: PropTypes.string,
 			driverId: PropTypes.string,
 			familyName: PropTypes.string,
 			givenName: PropTypes.string,
-			nationality: PropTypes.string,
-			permanentNumber: PropTypes.string,
 			url: PropTypes.string,
 			year: PropTypes.number,
 		}),
@@ -51,32 +45,23 @@ export class YearList extends Component {
 	}
 
 	render() {
-		const { winners, loading, champion } = this.props;
+		const { winners, year, loading, champion } = this.props;
 		return (
-			<div>
-				{loading ? (
-					<div className="App-loading" />
-				) : (
-					<>
-						<Link className="App-link" to="/">
-							Go Back
-						</Link>
-						<ul className="App-list">
-							{winners.map(winner => {
-								const isChampion = champion.driverId === winner.driverId;
-								return (
-									<li className={isChampion ? 'App-list-champion' : undefined} key={winner.round}>
-										Round {winner.round} Winner:{' '}
-										<a className="App-link" target="_blank" rel="noopener noreferrer" href={winner.url}>
-											{winner.givenName} {winner.familyName}
-										</a>
-									</li>
-								);
-							})}
-						</ul>
-					</>
-				)}
-			</div>
+			<Page title={`F1 ${year} Round Winners`} loading={loading} backButton>
+				<List>
+					{winners.map(winner => {
+						const isChampion = champion.driverId === winner.driverId;
+						return (
+							<ListItem highlight={isChampion} key={winner.round}>
+								Round {winner.round} Winner:{' '}
+								<AnchorLink link={winner.url}>
+									{winner.givenName} {winner.familyName}
+								</AnchorLink>
+							</ListItem>
+						);
+					})}
+				</List>
+			</Page>
 		);
 	}
 }

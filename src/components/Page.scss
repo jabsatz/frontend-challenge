@@ -1,0 +1,34 @@
+.Page {
+	display: flex;
+	flex-direction: column;
+	&-title {
+		margin-bottom: 2%;
+		font-size: 1.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	&-content {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		&-loading {
+			animation: App-loading-spin infinite 1s linear;
+			height: 50px;
+			width: 50px;
+			border: 5px solid #6f2232;
+			border-top-color: #c3073f;
+			border-radius: 50px;
+		}
+	}
+}
+
+@keyframes App-loading-spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}

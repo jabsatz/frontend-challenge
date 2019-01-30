@@ -1,8 +1,3 @@
-# FinCompare Front-end Challenge
-
-The purpose of this challenge is to let the developer show familiarity and skills with frontend technologies by creating a simple app using what its judges best, regarding patterns, libraries, and architeture.
-
-
 ## The Challenge
 
 We'll use the [Ergast API](http://ergast.com/mrd/) to create a single page application that
@@ -13,12 +8,17 @@ has been the world champion in the same season.
 
 Feel free to create the UI the way you think it's best, just make sure it's clean, understandable and it's a single page application. The main goal here is to check your skills with CSS or whatever you use to style your project.
 
-## Delivery
+## Quick Start
 
-Please use Github to send us your challenge, if you could fork this repo would be even better.
+1. `yarn install` or `npm install`
+2. `yarn start` or `npm run start`
+3. Project should open in `localhost:3000`
 
-## Extra
+## How I did it
 
-- You can use any Javascript library you want, but we would rather if you use React
-- Write a readme file explaining4 what you did, what you used and how to run your project.
+This project was bootstrapped using Create React App. Besides React, I'm using Redux for some state management (Although it is a very small project with only one reducer). I also used React Router to manage the routing.
 
+I divided the files into 3 separate folders:
+- The `redux` folder holds all the store configuration, and reducer and actions that I used. If it was a bigger project I would have used selectors as well, but I didn't see a necessity here
+- The `queries` folder manages all the calls to the `Ergast API`. Both of them require a lot of simultaneous promise calls since there wasn't (or at least I couldn't find) a single endpoint that gave me all the data I needed.
+- The `components` folder holds all React components and the SCSS for said components (I'm more comfortable using SCSS or styled-components than CSS).

@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -24,8 +24,11 @@ class App extends Component {
 		return (
 			<Router>
 				<div className="App">
-					<Route path="/" exact render={() => <ChampionsList />} />
-					<Route path="/:year" render={({ match }) => <YearList year={match.params.year} />} />
+					<div className="App-window">
+						<h1 className="App-window-title">F1 Ergast App</h1>
+						<Route path="/" exact render={() => <ChampionsList />} />
+						<Route path="/:year" render={({ match }) => <YearList year={match.params.year} />} />
+					</div>
 				</div>
 			</Router>
 		);

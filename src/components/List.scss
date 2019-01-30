@@ -1,0 +1,12 @@
+.List {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-align: center;
+	&-item {
+		padding: 5px 0px;
+		&--highlight {
+			background-color: #e08c9d;
+		}
+	}
+}
